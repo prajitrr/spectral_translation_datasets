@@ -24,7 +24,8 @@ def training_loop(ddpm, loader, n_epochs, optim, device, display=False, store_pa
         epoch_loss = 0.0
         for step, batch in enumerate(tqdm(loader, leave=False, desc=f"Epoch {epoch + 1}/{n_epochs}", colour="#005500")):
             # Loading data
-            x0 = batch[0].to(device)
+            #print(batch["image"].shape)
+            x0 = batch["image"].to(device)
             n = len(x0)
 
             # Picking some noise for each of the images in the batch, a timestep and the respective alpha_bars

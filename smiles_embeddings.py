@@ -18,9 +18,12 @@ class SmilesEmbeddings:
 
     def embed_smiles(self, molecule_smiles : str):
         mol = Chem.MolFromSmiles(molecule_smiles)
-        distance_matrix = Chem.GetDistanceMatrix(mol, 
-                                                 useBO = True, 
-                                                 useAtomWts = True)
+        try:
+            distance_matrix = Chem.GetDistanceMatrix(mol, 
+                                                     useBO = True, 
+                                                     useAtomWts = True)
+        except:
+            print(molecule_smiles)
         distance_matrix = torch.tensor(distance_matrix, dtype=torch.float32)
         width = distance_matrix.shape[0]
         l_pad = int((self.max_molecule_size - width)/2)

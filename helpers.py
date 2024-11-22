@@ -5,7 +5,7 @@ import einops
 import matplotlib.pyplot as plt
 import imageio
 
-def generate_new_images(ddpm, n_samples=16, device=None, frames_per_gif=100, gif_name="sampling.gif", c=1, h=28, w=28):
+def generate_new_images(ddpm, n_samples=16, device=None, c=1, h=28, w=28):
     """Given a DDPM model, a number of samples to be generated and a device, returns some newly generated samples"""
     frame_idxs = np.linspace(0, ddpm.n_steps, frames_per_gif).astype(np.uint)
     frames = []
@@ -41,31 +41,18 @@ def generate_new_images(ddpm, n_samples=16, device=None, frames_per_gif=100, gif
                 # sigma_t = beta_tilda_t.sqrt()
 
                 # Adding some more noise like in Langevin Dynamics fashion
-                x = x + sigma_t * z
+                #x = x + sigma_t * z
 
             # Adding frames to the GIF
-            if idx in frame_idxs or t == 0:
-                # Putting digits in range [0, 255]
-                normalized = x.clone()
-                for i in range(len(normalized)):
-                    normalized[i] -= torch.min(normalized[i])
-                    normalized[i] *= 255 / torch.max(normalized[i])
-
-                # Reshaping batch (n, c, h, w) to be a (as much as it gets) square frame
-                frame = einops.rearrange(normalized, "(b1 b2) c h w -> (b1 h) (b2 w) c", b1=int(n_samples ** 0.5))
-                frame = frame.cpu().numpy().astype(np.uint8)
-
-                # Rendering frame
-                frames.append(frame)
+        return x
 
     # Storing the gif
-    with imageio.get_writer(gif_name, mode="I") as writer:
-        for idx, frame in enumerate(frames):
-            writer.append_data(frame)
-            if idx == len(frames) - 1:
-                for _ in range(frames_per_gif // 3):
-                    writer.append_data(frames[-1])
-    return x
+    # with imageio.get_writer(gif_name, mode="I") as writer:
+    #     for idx, frame in enumerate(frames):
+    #         writer.append_data(frame)
+    #         if idx == len(frames) - 1:
+    #             for _ in range(frames_per_gif // 3):
+    #                 writer.append_data(frames[-1])
 
 def show_forward(ddpm, loader, device):
     # Showing the forward process

@@ -23,7 +23,11 @@ class SmilesDataset(Dataset):
         if torch.is_tensor(idx):
             idx = idx.tolist()
         smiles = self.smiles_frame.iloc[idx, 0]
-        image = self.embedder.embed_smiles(smiles)
+        try:
+            image = self.embedder.embed_smiles(smiles).unsqueeze(0)
+        except:
+            image = self.embedder.embed_smiles("CCCCCCCC").unsqueeze(0)
+        
         sample = {'image': image}
 
         if self.transform:
