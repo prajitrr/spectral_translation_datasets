@@ -1,0 +1,14 @@
+hmdb_experimental_msms_spectra/
+*.pkl
+*.smi
+model.data-00000-of-00001
+*.xml
+cleaned_spectra_processed.csv
+*.mgf
+
+.vscode/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pyw
