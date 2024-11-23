@@ -5,7 +5,7 @@ import einops
 import matplotlib.pyplot as plt
 import imageio
 
-def generate_new_images(ddpm, n_samples=16, device=None, c=1, h=28, w=28):
+def generate_new_images(ddpm, n_samples=16,     frames_per_gif=10, device=None, c=1, h=28, w=28):
     """Given a DDPM model, a number of samples to be generated and a device, returns some newly generated samples"""
     frame_idxs = np.linspace(0, ddpm.n_steps, frames_per_gif).astype(np.uint)
     frames = []

@@ -26,7 +26,7 @@ class SmilesDataset(Dataset):
         try:
             image = self.embedder.embed_smiles(smiles).unsqueeze(0)
         except:
-            image = self.embedder.embed_smiles("CCCCCCCC").unsqueeze(0)
+            image = self.embedder.embed_smiles("CCCCCCCCCCCCCCCCCCCCCCCCCCCC").unsqueeze(0)
         
         sample = {'image': image}
 
@@ -34,4 +34,3 @@ class SmilesDataset(Dataset):
             sample = self.transform(sample)
 
         return sample
-
